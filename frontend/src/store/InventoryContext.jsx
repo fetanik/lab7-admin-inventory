@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 import { getAllInventory } from '../services/inventoryApi';
 
 const InventoryContext = createContext(null);
@@ -8,7 +8,7 @@ export function InventoryProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const fetchInventory = async () => {
+  const fetchInventory = useCallback(async () => {
     setLoading(true);
     setError('');
 
@@ -20,7 +20,7 @@ export function InventoryProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const value = {
     items,
